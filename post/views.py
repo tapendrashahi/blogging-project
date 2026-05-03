@@ -1,5 +1,6 @@
 from rest_framework import viewsets
 from .models import Category, Tag, Post
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from .serializers import CategorySerializer, TagSerializer, PostSerializer
 
 class CategoryViewset(viewsets.ModelViewSet):
@@ -13,3 +14,6 @@ class TagViewSet(viewsets.ModelViewSet):
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
+    filterset_fields = ['category', 'tag', 'is_active']
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    search_fields = ['title', 'body']
